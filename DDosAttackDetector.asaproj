@@ -1,0 +1,53 @@
+﻿<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>4e2d7b85-6076-4099-867c-1572734bf098</ProjectGuid>
+    <OutputType>File</OutputType>
+    <AssemblyName>DDosAttackDetector</AssemblyName>
+    <StartFile>Script.asaql</StartFile>
+    <ASATargetsFilePath>$(AppData)\Microsoft\DataLake\MsBuild\1.0\StreamAnalytics.targets</ASATargetsFilePath>
+    <Name>DDosAttackDetector</Name>
+    <RootNamespace>DDosAttackDetector</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>false</DebugSymbols>
+    <OutputPath>bin\Release\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Script Include="Script.asaql" />
+    <ScriptCode Include="Script.asaql.cs">
+      <DependentUpon>Script.asaql</DependentUpon>
+    </ScriptCode>
+  </ItemGroup>
+  <ItemGroup>
+    <Configure Include="Functions\collectIP.js.json">
+      <SubType>JSFunctionConfig</SubType>
+      <DependentUpon>Functions\collectIP.js</DependentUpon>
+    </Configure>
+    <Configure Include="Inputs\DDosEHInput.json">
+      <SubType>Input</SubType>
+    </Configure>
+    <Configure Include="Outputs\DDosEventsCosmosOutput.json">
+      <SubType>Output</SubType>
+    </Configure>
+    <Configure Include="JobConfig.json">
+      <SubType>JobConfig</SubType>
+    </Configure>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Inputs" />
+    <Folder Include="Functions" />
+    <Folder Include="Outputs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Functions\collectIP.js">
+      <SubType>JSFunctionCode</SubType>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(ASATargetsFilePath)" />
+</Project>

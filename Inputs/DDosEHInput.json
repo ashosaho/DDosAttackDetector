@@ -1,0 +1,30 @@
+﻿{
+  "Sample": null,
+  "EventHubProperties": {
+    "ConsumerGroupName": null,
+    "EventHubName": "xxxxxxxxxxxxx",
+    "ServiceBusNamespace": "xxxxxxxxxx",
+    "SharedAccessPolicyKey": null,
+    "SharedAccessPolicyName": "xxxxxxxxxxxxxxxxx"
+  },
+  "BlobStorageProperties": null,
+  "IoTHubProperties": null,
+  "BlobReferenceProperties": null,
+  "SqlReferenceInputInfo": null,
+  "InputPartionKey": null,
+  "DataSourceCredentialDomain": "15643e10-b754-4611-aaf6-75e1bf9617c6.StreamAnalyticsCredential",
+  "Name": "DDosEHInput",
+  "Type": "Data Stream",
+  "DataSourceType": "Event Hub",
+  "Serialization": {
+    "Encoding": "UTF8",
+    "Type": "Json",
+    "FieldDelimiter": null,
+    "Format": null,
+    "SerializationDllPath": null,
+    "SerializationClassName": null,
+    "SerializationDllPathInLocal": null
+  },
+  "CompresssionType": "None",
+  "ScriptType": "Input"
+}

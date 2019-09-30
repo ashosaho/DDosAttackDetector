@@ -1,0 +1,32 @@
+﻿{
+  "EventHubProperties": null,
+  "BlobStorageProperties": null,
+  "SQLDatabaseProperties": null,
+  "TableStorageProperties": null,
+  "ServiceBusQueueProperties": null,
+  "ServiceBusTopicProperties": null,
+  "DocumentDbProperties": {
+    "AccountId": "xxxxxxxx",
+    "AccountKey": null,
+    "CollectionNamePattern": "xxxxxxxxxxxxxxxx",
+    "Database": "xxxxxxxxxxxxxxx",
+    "DocumentId": null,
+    "PartitionKey": null
+  },
+  "PowellBIProperties": null,
+  "AzureDataLakeStoreProperties": null,
+  "AzureFunctionProperties": null,
+  "DataSourceCredentialDomain": "491e2907-0143-4343-b815-b7b88c207e5e.StreamAnalyticsCredential",
+  "Name": "DDosEventsCosmosOutput",
+  "DataSourceType": "DocumentDB",
+  "Serialization": {
+    "Encoding": "UTF8",
+    "Type": "Json",
+    "FieldDelimiter": null,
+    "Format": "LineSeparated",
+    "SerializationDllPath": null,
+    "SerializationClassName": null,
+    "SerializationDllPathInLocal": null
+  },
+  "ScriptType": "Output"
+}

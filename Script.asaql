@@ -1,0 +1,56 @@
+﻿--Read the log events from EventHub and TIMESTAMP it by REQUEST time
+WITH INPUTLOG AS(
+    SELECT 
+        remoteip,
+        time,
+        method,
+        size,
+        status
+    FROM
+        [DDosEHInput] TIMESTAMP BY time
+),
+
+--Logic for DDOS Attack, for the scenario where host is flooded with huge amount of request in a given interval
+-- The threshold value 2000 (i.e. no of request in 2 minutes) is hard coded for simplicity
+DDOS1 AS (
+SELECT 
+    MIN(time) as ddos1attackstarttime, 
+    COUNT(*) as numberofrequests,
+	uda.collectIP(remoteip) as affectedips
+FROM INPUTLOG  
+GROUP BY SlidingWindow(minute,2)
+HAVING COUNT(*) >= 2000
+),
+
+--Logic for DDOS Attack, for the scenario where number of response status 503 is unusually high
+-- The threshold value 20 (i.e. no of request in 2 minutes) is hard coded for simplicity
+DDOS2 AS (
+SELECT 
+    MIN(time) as ddos1attackstarttime, 
+    COUNT(*) as numberofrequests,
+	uda.collectIP(remoteip) as affectedips
+FROM INPUTLOG
+WHERE status = 503   
+GROUP BY SlidingWindow(minute,2)
+HAVING COUNT(*) >= 20
+),
+
+--UNION all the DDOS Type
+DDOSFINAL AS (
+    SELECT 
+        ipArrayElement.ArrayValue as IP,
+        [DDOS1].ddos1attackstarttime as DDOSATTACKTS
+    FROM DDOS1
+    CROSS APPLY GetArrayElements([DDOS1].affectedips) ipArrayElement
+
+    UNION
+
+    SELECT 
+        ipArrayElement.ArrayValue as IP,
+        [DDOS2].ddos1attackstarttime as DDOSATTACKTS
+    FROM DDOS2
+    CROSS APPLY GetArrayElements([DDOS2].affectedips) ipArrayElement
+)
+
+--Write to Storage
+SELECT * INTO [DDosEventsCosmosOutput] FROM DDOSFINAL
